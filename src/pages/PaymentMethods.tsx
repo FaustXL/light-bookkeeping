@@ -219,33 +219,35 @@ const PaymentMethods: React.FC = () => {
         ) : (
           paymentMethods.map((pm) => (
             <Card key={pm.id} className="overflow-hidden">
-              <div className="flex items-center justify-between p-4">
-                <div className="flex items-center space-x-4">
-                  <div 
-                    className="w-10 h-10 rounded-full flex items-center justify-center" 
-                    style={{ backgroundColor: pm.color }}
-                  >
-                    <span className="text-white">
-                      {pm.icon === 'credit-card' && '💳'}
-                      {pm.icon === 'dollar-sign' && '$'}
-                      {pm.icon === 'message-circle' && '💬'}
-                      {pm.icon === 'wallet' && '👛'}
-                      {pm.icon === 'banknote' && '💵'}
-                      {pm.icon === 'paypal' && 'P'}
-                      {pm.icon === 'bitcoin' && '₿'}
-                      {pm.icon === 'cash' && '💸'}
-                      {pm.icon === 'check' && '✓'}
-                      {pm.icon === 'credit-card-2' && '💳'}
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="font-medium">{pm.name}</h3>
-                    {pm.isDefault && (
-                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">默认</span>
-                    )}
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-4">
+                    <div 
+                      className="w-10 h-10 rounded-full flex items-center justify-center" 
+                      style={{ backgroundColor: pm.color }}
+                    >
+                      <span className="text-white">
+                        {pm.icon === 'credit-card' && '💳'}
+                        {pm.icon === 'dollar-sign' && '$'}
+                        {pm.icon === 'message-circle' && '💬'}
+                        {pm.icon === 'wallet' && '👛'}
+                        {pm.icon === 'banknote' && '💵'}
+                        {pm.icon === 'paypal' && 'P'}
+                        {pm.icon === 'bitcoin' && '₿'}
+                        {pm.icon === 'cash' && '💸'}
+                        {pm.icon === 'check' && '✓'}
+                        {pm.icon === 'credit-card-2' && '💳'}
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="font-medium">{pm.name}</h3>
+                      {pm.isDefault && (
+                        <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">默认</span>
+                      )}
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex flex-wrap gap-2">
                   {!pm.isDefault && (
                     <Button 
                       size="sm" 
