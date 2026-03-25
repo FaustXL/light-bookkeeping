@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Glassmorphism Design System - 轻记账 */
+    /* Primary: #18181B - Deep charcoal */
+    --background: 0 0% 98%;
+    --foreground: 240 10% 4%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 4%;
+
+    /* Primary — Deep charcoal for modern feel */
+    --primary: 240 6% 10%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary — Soft gray */
+    --secondary: 240 4% 95%;
+    --secondary-foreground: 240 6% 10%;
+
+    /* Muted */
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+
+    /* Accent — Blue #2563EB */
+    --accent: 221 83% 53%;
+    --accent-bg: 218 44% 94%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Destructive — Red for expense */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Border / Input */
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 221 83% 53%;
+    --radius: 0.75rem;
+
+    /* Semantic — income green, expense red */
+    --income: 152 57% 39%;
+    --expense: 0 72% 51%;
+
+    /* Navigation */
+    --nav-active: 221 83% 53%;
+    --nav-inactive: 240 4% 46%;
+
+    /* Shadows — Glassmorphism style */
+    --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
+    --shadow-card-hover: 0 10px 40px -10px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+    --shadow-nav: 0 -1px 20px 0 rgba(0, 0, 0, 0.08);
+    --shadow-fab: 0 8px 30px -4px rgba(37, 99, 235, 0.4);
+    --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+
+    /* Transitions */
+    --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Glassmorphism */
+    --glass-bg: rgba(255, 255, 255, 0.3);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --glass-blur: 20px;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    height: -webkit-fill-available;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+      "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+
+  /* Typography Scale */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  /* Glass Card */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+  }
+
+  /* Modern Button */
+  .btn-modern {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-200 cursor-pointer;
+    @apply bg-primary text-primary-foreground;
+    box-shadow: 0 4px 14px 0 rgba(24, 24, 27, 0.25);
+  }
+
+  .btn-modern:hover {
+    @apply opacity-90;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px 0 rgba(24, 24, 27, 0.35);
+  }
+
+  .btn-modern:active {
+    transform: translateY(0);
+  }
+
+  /* Accent Button */
+  .btn-accent {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-200 cursor-pointer;
+    @apply bg-accent text-accent-foreground;
+    box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.35);
+  }
+
+  .btn-accent:hover {
+    @apply opacity-90;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px 0 rgba(37, 99, 235, 0.45);
+  }
+
+  /* Ghost Button */
+  .btn-ghost {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 cursor-pointer;
+    @apply bg-transparent text-foreground;
+  }
+
+  .btn-ghost:hover {
+    @apply bg-secondary;
+  }
+
+  /* Modern Input */
+  .input-modern {
+    @apply h-12 w-full px-4 rounded-xl bg-white/80 border border-border;
+    @apply text-foreground placeholder:text-muted-foreground;
+    @apply transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring/20 focus:border-ring;
+  }
+
+  .input-modern:hover {
+    @apply bg-white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Section Title */
+  .section-title {
+    font-family: 'Archivo', sans-serif;
+    @apply text-lg font-semibold text-foreground tracking-tight;
+  }
+
+  /* Card Hover Effect */
+  .card-hover {
+    @apply transition-all duration-300 cursor-pointer;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #18181B 0%, #3F3F46 100%);
+  }
+
+  /* Income/Expense Colors */
+  .text-income {
+    color: hsl(var(--income));
+  }
+
+  .text-expense {
+    color: hsl(var(--expense));
+  }
+
+  .bg-income {
+    background-color: hsl(var(--income));
+  }
+
+  .bg-expense {
+    background-color: hsl(var(--expense));
+  }
+  
+  .bg-accent-bg {
+    background-color: hsl(var(--accent-bg));
+  }
+}
+
+@layer utilities {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .touch-action-pan {
+    touch-action: pan-y;
+  }
+
+  /* Animation utilities */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Glass effect */
+  .backdrop-blur-glass {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+}
