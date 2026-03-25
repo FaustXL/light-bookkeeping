@@ -201,7 +201,7 @@ npx cap open ios
 
 ## 10. License Information
 
-本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
+本项目采用 MIT 许可证，版权归 2026 FaustXL 所有。详见 [LICENSE](LICENSE) 文件。
 
 ---
 
