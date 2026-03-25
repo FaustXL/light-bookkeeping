@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { CategoryIcon } from '@/components/CategoryIcon'
 import { useToast } from '@/components/ui/toast'
 import { useNavigate } from 'react-router-dom'
-import { ChevronLeft, Calendar, CreditCard } from 'lucide-react'
+import { ChevronLeft, Calendar, CreditCard, MoreHorizontal, X } from 'lucide-react'
 
 export default function AddTransaction() {
   const navigate = useNavigate()
@@ -21,6 +21,8 @@ export default function AddTransaction() {
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
   })
   const [merchantName, setMerchantName] = useState('')
+  const [showCategoryModal, setShowCategoryModal] = useState(false)
+  const [showPaymentMethodModal, setShowPaymentMethodModal] = useState(false)
 
   const categories = useLiveQuery(
     () => db.categories.where('type').equals(type).sortBy('order'),
@@ -128,7 +130,7 @@ export default function AddTransaction() {
       {/* Categories */}
       <div className="px-4 mb-3">
         <div className="grid grid-cols-5 gap-2">
-          {(categories || []).map(cat => (
+          {(categories || []).slice(0, 8).map(cat => (
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat)}
@@ -140,6 +142,17 @@ export default function AddTransaction() {
               <span className="text-[10px] text-foreground font-medium">{cat.name}</span>
             </button>
           ))}
+          {categories && categories.length > 8 && (
+            <button
+              onClick={() => setShowCategoryModal(true)}
+              className="flex flex-col items-center gap-1 py-2 rounded-xl transition-all duration-150 hover:bg-muted"
+            >
+              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
+              </div>
+              <span className="text-[10px] text-foreground font-medium">更多</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -193,7 +206,7 @@ export default function AddTransaction() {
           支付方式
         </h3>
         <div className="grid grid-cols-5 gap-2">
-          {(paymentMethods || []).map(pm => (
+          {(paymentMethods || []).slice(0, 8).map(pm => (
             <button
               key={pm.id}
               onClick={() => setSelectedPaymentMethod(pm)}
@@ -219,6 +232,17 @@ export default function AddTransaction() {
               <span className="text-[10px] text-foreground font-medium">{pm.name}</span>
             </button>
           ))}
+          {paymentMethods && paymentMethods.length > 8 && (
+            <button
+              onClick={() => setShowPaymentMethodModal(true)}
+              className="flex flex-col items-center gap-1 py-2 rounded-xl transition-all duration-150 hover:bg-muted"
+            >
+              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
+              </div>
+              <span className="text-[10px] text-foreground font-medium">更多</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -261,6 +285,86 @@ export default function AddTransaction() {
           >00</button>
         </div>
       </div>
+
+      {/* Category Modal */}
+      {showCategoryModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-card rounded-2xl w-full max-w-md max-h-[80vh] overflow-hidden">
+            <div className="flex items-center justify-between px-4 py-3 border-b">
+              <h3 className="text-base font-semibold text-foreground">选择分类</h3>
+              <button onClick={() => setShowCategoryModal(false)} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted">
+                <X className="w-4 h-4 text-muted-foreground" />
+              </button>
+            </div>
+            <div className="p-4 overflow-y-auto max-h-[60vh]">
+              <div className="grid grid-cols-5 gap-2">
+                {(categories || []).map(cat => (
+                  <button
+                    key={cat.id}
+                    onClick={() => {
+                      setSelectedCategory(cat)
+                      setShowCategoryModal(false)
+                    }}
+                    className={`flex flex-col items-center gap-1 py-2 rounded-xl transition-all duration-150 ${
+                      selectedCategory?.id === cat.id ? 'bg-accent ring-1 ring-primary/30' : 'hover:bg-muted'
+                    }`}
+                  >
+                    <CategoryIcon icon={cat.icon} color={cat.color} size="sm" />
+                    <span className="text-[10px] text-foreground font-medium">{cat.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Payment Method Modal */}
+      {showPaymentMethodModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-card rounded-2xl w-full max-w-md max-h-[80vh] overflow-hidden">
+            <div className="flex items-center justify-between px-4 py-3 border-b">
+              <h3 className="text-base font-semibold text-foreground">选择支付方式</h3>
+              <button onClick={() => setShowPaymentMethodModal(false)} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted">
+                <X className="w-4 h-4 text-muted-foreground" />
+              </button>
+            </div>
+            <div className="p-4 overflow-y-auto max-h-[60vh]">
+              <div className="grid grid-cols-5 gap-2">
+                {(paymentMethods || []).map(pm => (
+                  <button
+                    key={pm.id}
+                    onClick={() => {
+                      setSelectedPaymentMethod(pm)
+                      setShowPaymentMethodModal(false)
+                    }}
+                    className={`flex flex-col items-center gap-1 py-2 rounded-xl transition-all duration-150 ${selectedPaymentMethod?.id === pm.id ? 'bg-accent-bg ring-1 ring-primary/30' : 'hover:bg-muted'}`}
+                  >
+                    <div 
+                      className="w-8 h-8 rounded-full flex items-center justify-center" 
+                      style={{ backgroundColor: pm.color }}
+                    >
+                      <span className="text-white text-xs">
+                        {pm.icon === 'credit-card' && '💳'}
+                        {pm.icon === 'dollar-sign' && '$'}
+                        {pm.icon === 'message-circle' && '💬'}
+                        {pm.icon === 'wallet' && '👛'}
+                        {pm.icon === 'banknote' && '💵'}
+                        {pm.icon === 'paypal' && 'P'}
+                        {pm.icon === 'bitcoin' && '₿'}
+                        {pm.icon === 'cash' && '💸'}
+                        {pm.icon === 'check' && '✓'}
+                        {pm.icon === 'credit-card-2' && '💳'}
+                      </span>
+                    </div>
+                    <span className="text-[10px] text-foreground font-medium">{pm.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

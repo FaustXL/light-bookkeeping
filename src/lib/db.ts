@@ -54,7 +54,10 @@ export function initDefaultCategories() {
 }
 
 export function initDefaultPaymentMethods() {
-  return _doInit()
+  if (!_initPromise) {
+    _initPromise = _doInit()
+  }
+  return _initPromise
 }
 
 async function _doInit() {
