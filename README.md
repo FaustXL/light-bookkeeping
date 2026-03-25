@@ -1,9 +1,5 @@
 # 轻记账 (Light Bookkeeping)
 
-![License](https://img.shields.io/github/license/yourusername/light-bookkeeping)
-![Node.js](https://img.shields.io/node/v/light-bookkeeping)
-![Build](https://img.shields.io/github/actions/workflow/status/yourusername/light-bookkeeping/build.yml)
-
 ## 1. Project Overview
 
 轻记账是一款简洁高效的离线记账应用，专注于保护用户隐私安全。它允许用户轻松记录、管理和分析个人财务数据，所有数据均存储在本地设备，无需网络连接即可使用全部功能。
@@ -163,15 +159,12 @@ npx cap open ios
 1. **导入账单失败**
    - 原因：文件格式不正确或文件损坏
    - 解决方案：确保使用正确格式的账单文件，尝试重新导出账单
-
 2. **AI分析失败**
    - 原因：API Key无效或网络连接问题
    - 解决方案：检查AI配置，确保API Key正确，确保设备有网络连接
-
 3. **数据丢失**
    - 原因：浏览器清除数据或应用被卸载
    - 解决方案：定期导出数据备份，使用JSON格式导出以保留完整数据
-
 4. **应用运行缓慢**
    - 原因：交易记录过多
    - 解决方案：定期清理不需要的交易记录，使用数据导出功能备份后清除数据
@@ -203,6 +196,6 @@ npx cap open ios
 
 本项目采用 MIT 许可证，版权归 2026 FaustXL 所有。详见 [LICENSE](LICENSE) 文件。
 
----
+***
 
 **轻记账** - 让记账变得简单、安全、高效！
