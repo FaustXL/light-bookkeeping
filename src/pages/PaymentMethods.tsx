@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { db, type PaymentMethod } from '../lib/db'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Trash2, Edit, Plus, Check } from 'lucide-react'
+import { Trash2, Edit, Plus, Check, ChevronLeft } from 'lucide-react'
 
 const PaymentMethods: React.FC = () => {
+  const navigate = useNavigate()
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
@@ -183,8 +185,15 @@ const PaymentMethods: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">支付方式管理</h1>
+      {/* Header */}
+      <div className="flex items-center px-4 pt-12 pb-3 mb-6">
+        <button onClick={() => navigate('/settings')} className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-accent transition-colors">
+          <ChevronLeft className="w-5 h-5 text-foreground" />
+        </button>
+        <h1 className="flex-1 text-center text-base font-semibold text-foreground">支付方式管理</h1>
+        <div className="w-10" />
+      </div>
+      <div className="flex justify-end mb-6">
         <Button onClick={() => setIsAddDialogOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
           添加支付方式
