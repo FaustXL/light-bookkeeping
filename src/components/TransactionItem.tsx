@@ -19,20 +19,21 @@ export function TransactionItem({ transaction, categoryIcon, categoryColor, onCl
   const getSourceBorderColor = () => {
     switch (transaction.source) {
       case '微信账单':
-        return 'border-l-4 border-l-green-500';
+        return '4px solid #10b981';
       case '支付宝账单':
-        return 'border-l-4 border-l-blue-500';
+        return '4px solid #3b82f6';
       case '软件记录':
-        return 'border-l-4 border-l-gray-400';
+        return '4px solid #9ca3af';
       default:
-        return 'border-l-4 border-l-gray-400';
+        return '4px solid #9ca3af';
     }
   };
 
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-4 w-full px-5 py-4 bg-white hover:bg-muted/30 active:bg-muted/50 transition-all duration-200 text-left group cursor-pointer ${getSourceBorderColor()}`}
+      className={`flex items-center gap-4 w-full px-5 py-4 bg-white hover:bg-muted/30 active:bg-muted/50 transition-all duration-200 text-left group cursor-pointer`}
+      style={{ borderLeft: getSourceBorderColor() }}
     >
       {/* Category Icon with glass effect */}
       <div className="relative">

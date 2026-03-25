@@ -185,7 +185,7 @@ export default function Transactions() {
                   </span>
                 </div>
                 <div className="divide-y divide-border/30">
-                  {group.items.map(t => {
+                  {group.items.map((t, index) => {
                     const cat = categoryMap.get(t.categoryId) || { icon: 'more-horizontal', color: '#64748b' }
                     return (
                       <TransactionItem

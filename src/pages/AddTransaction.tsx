@@ -95,9 +95,9 @@ export default function AddTransaction() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col animate-slide-up">
-      {/* Header */}
-      <div className="flex items-center px-4 pt-12 pb-3">
+    <div className="h-screen bg-background flex flex-col animate-slide-up">
+      {/* Header - 固定在顶部 */}
+      <div className="flex items-center px-4 pt-12 pb-1 sticky top-0 z-10 bg-background border-b">
         <button onClick={() => navigate(-1)} className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-accent transition-colors">
           <ChevronLeft className="w-5 h-5 text-foreground" />
         </button>
@@ -105,149 +105,152 @@ export default function AddTransaction() {
         <div className="w-10" />
       </div>
 
-      {/* Type Toggle */}
-      <div className="px-4 mb-4">
-        <div className="flex bg-muted rounded-xl p-1">
-          <button
-            onClick={() => { setType('expense'); setSelectedCategory(null) }}
-            className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-              type === 'expense' ? 'bg-card shadow-sm text-expense' : 'text-muted-foreground'
-            }`}
-          >
-            支出
-          </button>
-          <button
-            onClick={() => { setType('income'); setSelectedCategory(null) }}
-            className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-              type === 'income' ? 'bg-card shadow-sm text-income' : 'text-muted-foreground'
-            }`}
-          >
-            收入
-          </button>
-        </div>
-      </div>
-
-      {/* Categories */}
-      <div className="px-4 mb-3">
-        <div className="grid grid-cols-5 gap-2">
-          {(categories || []).slice(0, 8).map(cat => (
+      {/* 可滚动内容区域 */}
+      <div className="flex-1 overflow-y-auto pb-6">
+        {/* Type Toggle */}
+        <div className="px-2 mb-4">
+          <div className="flex bg-muted rounded-xl p-1">
             <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat)}
-              className={`flex flex-col items-center gap-1 py-2 rounded-xl transition-all duration-150 ${
-                selectedCategory?.id === cat.id ? 'bg-accent ring-1 ring-primary/30' : 'hover:bg-muted'
+              onClick={() => { setType('expense'); setSelectedCategory(null) }}
+              className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                type === 'expense' ? 'bg-card shadow-sm text-expense' : 'text-muted-foreground'
               }`}
             >
-              <CategoryIcon icon={cat.icon} color={cat.color} size="sm" />
-              <span className="text-[10px] text-foreground font-medium">{cat.name}</span>
+              支出
             </button>
-          ))}
-          {categories && categories.length > 8 && (
             <button
-              onClick={() => setShowCategoryModal(true)}
-              className="flex flex-col items-center gap-1 py-2 rounded-xl transition-all duration-150 hover:bg-muted"
+              onClick={() => { setType('income'); setSelectedCategory(null) }}
+              className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                type === 'income' ? 'bg-card shadow-sm text-income' : 'text-muted-foreground'
+              }`}
             >
-              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
-              </div>
-              <span className="text-[10px] text-foreground font-medium">更多</span>
+              收入
             </button>
-          )}
-        </div>
-      </div>
-
-      {/* Amount Display */}
-      <div className="px-4 mb-2">
-        <div className="bg-muted/50 rounded-2xl p-4">
-          <div className="flex items-baseline gap-1">
-            <span className="text-muted-foreground text-lg">¥</span>
-            <span className={`text-3xl font-bold tabular-nums ${
-              amount ? 'text-foreground' : 'text-muted-foreground/40'
-            }`}>
-              {amount || '0.00'}
-            </span>
           </div>
         </div>
-      </div>
 
-      {/* Note & Date & Merchant */}
-      <div className="px-4 mb-3">
-        <input
-          type="text"
-          value={merchantName}
-          onChange={e => setMerchantName(e.target.value)}
-          placeholder="商户名称..."
-          className="w-full h-10 px-3 mb-2 rounded-xl bg-muted/50 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-1 focus:ring-primary/30 transition-all"
-        />
-        <div className="flex gap-2">
+        {/* Categories */}
+        <div className="px-2 mb-2">
+          <div className="grid grid-cols-5 gap-2">
+            {(categories || []).slice(0, 8).map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat)}
+                className={`flex flex-col items-center gap-1 py-2 rounded-xl transition-all duration-150 ${
+                  selectedCategory?.id === cat.id ? 'bg-accent ring-1 ring-primary/30' : 'hover:bg-muted'
+                }`}
+              >
+                <CategoryIcon icon={cat.icon} color={cat.color} size="sm" />
+                <span className="text-[10px] text-foreground font-medium">{cat.name}</span>
+              </button>
+            ))}
+            {categories && categories.length > 8 && (
+              <button
+                onClick={() => setShowCategoryModal(true)}
+                className="flex flex-col items-center gap-1 py-2 rounded-xl transition-all duration-150 hover:bg-muted"
+              >
+                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                  <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
+                </div>
+                <span className="text-[10px] text-foreground font-medium">更多</span>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Amount Display */}
+        <div className="px-4 mb-2">
+          <div className="bg-muted/50 rounded-2xl p-4">
+            <div className="flex items-baseline gap-1">
+              <span className="text-muted-foreground text-lg">¥</span>
+              <span className={`text-3xl font-bold tabular-nums ${
+                amount ? 'text-foreground' : 'text-muted-foreground/40'
+              }`}>
+                {amount || '0.00'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Note & Date & Merchant */}
+        <div className="px-4 mb-3">
           <input
             type="text"
-            value={note}
-            onChange={e => setNote(e.target.value)}
-            placeholder="添加备注..."
-            className="flex-1 h-10 px-3 rounded-xl bg-muted/50 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-1 focus:ring-primary/30 transition-all"
+            value={merchantName}
+            onChange={e => setMerchantName(e.target.value)}
+            placeholder="商户名称..."
+            className="w-full h-10 px-3 mb-2 rounded-xl bg-muted/50 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-1 focus:ring-primary/30 transition-all"
           />
-          <div className="relative">
+          <div className="flex gap-2">
             <input
-              type="date"
-              value={dateStr}
-              onChange={e => setDateStr(e.target.value)}
-              className="h-10 px-3 pl-9 rounded-xl bg-muted/50 text-sm text-foreground outline-none focus:ring-1 focus:ring-primary/30 transition-all appearance-none w-36"
+              type="text"
+              value={note}
+              onChange={e => setNote(e.target.value)}
+              placeholder="添加备注..."
+              className="flex-1 h-10 px-3 rounded-xl bg-muted/50 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-1 focus:ring-primary/30 transition-all"
             />
-            <Calendar className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <div className="relative">
+              <input
+                type="date"
+                value={dateStr}
+                onChange={e => setDateStr(e.target.value)}
+                className="h-10 px-3 pl-9 rounded-xl bg-muted/50 text-sm text-foreground outline-none focus:ring-1 focus:ring-primary/30 transition-all appearance-none w-36"
+              />
+              <Calendar className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+          </div>
+        </div>
+
+        {/* Payment Methods */}
+        <div className="px-4 mb-3">
+          <h3 className="text-sm font-medium text-foreground mb-2 flex items-center">
+            <CreditCard className="w-4 h-4 mr-1" />
+            支付方式
+          </h3>
+          <div className="grid grid-cols-5 gap-2">
+            {(paymentMethods || []).slice(0, 8).map(pm => (
+              <button
+                key={pm.id}
+                onClick={() => setSelectedPaymentMethod(pm)}
+                className={`flex flex-col items-center gap-1 py-2 rounded-xl transition-all duration-150 ${selectedPaymentMethod?.id === pm.id ? 'bg-accent-bg ring-1 ring-primary/30' : 'hover:bg-muted'}`}
+              >
+                <div 
+                  className="w-8 h-8 rounded-full flex items-center justify-center" 
+                  style={{ backgroundColor: pm.color }}
+                >
+                  <span className="text-white text-xs">
+                    {pm.icon === 'credit-card' && '💳'}
+                    {pm.icon === 'dollar-sign' && '$'}
+                    {pm.icon === 'message-circle' && '💬'}
+                    {pm.icon === 'wallet' && '👛'}
+                    {pm.icon === 'banknote' && '💵'}
+                    {pm.icon === 'paypal' && 'P'}
+                    {pm.icon === 'bitcoin' && '₿'}
+                    {pm.icon === 'cash' && '💸'}
+                    {pm.icon === 'check' && '✓'}
+                    {pm.icon === 'credit-card-2' && '💳'}
+                  </span>
+                </div>
+                <span className="text-[10px] text-foreground font-medium">{pm.name}</span>
+              </button>
+            ))}
+            {paymentMethods && paymentMethods.length > 8 && (
+              <button
+                onClick={() => setShowPaymentMethodModal(true)}
+                className="flex flex-col items-center gap-1 py-2 rounded-xl transition-all duration-150 hover:bg-muted"
+              >
+                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                  <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
+                </div>
+                <span className="text-[10px] text-foreground font-medium">更多</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Payment Methods */}
-      <div className="px-4 mb-3">
-        <h3 className="text-sm font-medium text-foreground mb-2 flex items-center">
-          <CreditCard className="w-4 h-4 mr-1" />
-          支付方式
-        </h3>
-        <div className="grid grid-cols-5 gap-2">
-          {(paymentMethods || []).slice(0, 8).map(pm => (
-            <button
-              key={pm.id}
-              onClick={() => setSelectedPaymentMethod(pm)}
-              className={`flex flex-col items-center gap-1 py-2 rounded-xl transition-all duration-150 ${selectedPaymentMethod?.id === pm.id ? 'bg-accent-bg ring-1 ring-primary/30' : 'hover:bg-muted'}`}
-            >
-              <div 
-                className="w-8 h-8 rounded-full flex items-center justify-center" 
-                style={{ backgroundColor: pm.color }}
-              >
-                <span className="text-white text-xs">
-                  {pm.icon === 'credit-card' && '💳'}
-                  {pm.icon === 'dollar-sign' && '$'}
-                  {pm.icon === 'message-circle' && '💬'}
-                  {pm.icon === 'wallet' && '👛'}
-                  {pm.icon === 'banknote' && '💵'}
-                  {pm.icon === 'paypal' && 'P'}
-                  {pm.icon === 'bitcoin' && '₿'}
-                  {pm.icon === 'cash' && '💸'}
-                  {pm.icon === 'check' && '✓'}
-                  {pm.icon === 'credit-card-2' && '💳'}
-                </span>
-              </div>
-              <span className="text-[10px] text-foreground font-medium">{pm.name}</span>
-            </button>
-          ))}
-          {paymentMethods && paymentMethods.length > 8 && (
-            <button
-              onClick={() => setShowPaymentMethodModal(true)}
-              className="flex flex-col items-center gap-1 py-2 rounded-xl transition-all duration-150 hover:bg-muted"
-            >
-              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
-              </div>
-              <span className="text-[10px] text-foreground font-medium">更多</span>
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Number Pad */}
-      <div className="mt-auto bg-card border-t px-3 pt-2 pb-6 mb-4 safe-bottom">
+      {/* Number Pad - 固定在底部 */}
+      <div className="bg-card border-t px-3 pt-2 pb-6 mb-5 safe-bottom">
         <div className="grid grid-cols-4 gap-1.5">
           {['1', '2', '3'].map(key => (
             <button key={key} onClick={() => handleNumberClick(key)}
